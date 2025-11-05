@@ -10,6 +10,7 @@ import seaborn as sns
 
 st.set_page_config(page_title="Lead Conversion Prediction", layout="centered")
 
+# Header
 st.title("🎯 Lead-to-Customer Predictor")
 st.write("Predict whether a lead will convert based on CRM attributes like source, score, and follow-ups.")
 
@@ -49,13 +50,11 @@ with st.sidebar:
     st.metric("Test Samples", len(y_test))
     st.caption("🧠 Model trained on 1,000 synthetic CRM records.")
 
-# Main Header
-st.title("🎯 Lead-to-Customer Predictor")
-st.write("Predict whether a lead will convert into a customer based on CRM insights like source, score, and follow-ups.")
 
 st.markdown("### 🧾 Provide Input Details")
 st.info("👉 Select or enter the details below, then click **Check Conversion** to see the prediction.")
 
+# User Input details
 col1, col2 = st.columns(2)
 lead_source = col1.selectbox("Lead Source", df['LeadSource'].unique(),help="Where the lead originated from (e.g., Ad, Referral, Website).")
 industry = col2.selectbox("Industry", df['Industry'].unique(),help="Industry or business domain of the lead.")
@@ -83,4 +82,6 @@ if st.button("Check conversion "):
     st.info(f"**Probability of Conversion:** {prob*100:.2f}%")
 
 st.markdown("---")
+
+#footer
 st.caption("Built by Suvaranamaliya Jothibabu.")
