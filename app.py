@@ -41,19 +41,28 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 acc = accuracy_score(y_test, y_pred)
 
-st.subheader("📈 Model Performance")
-col1, col2 = st.columns(2)
-col1.metric("Accuracy", f"{acc*100:.2f}%")
-col2.metric("Test Samples", len(y_test))
 
+# Sidebar – Model Performance
+with st.sidebar:
+    st.header("📈 Model Performance")
+    st.metric("Accuracy", f"{acc*100:.2f}%")
+    st.metric("Test Samples", len(y_test))
+    st.caption("🧠 Model trained on 1,000 synthetic CRM records.")
+
+# Main Header
+st.title("🎯 Lead-to-Customer Predictor")
+st.write("Predict whether a lead will convert into a customer based on CRM insights like source, score, and follow-ups.")
+
+st.markdown("### 🧾 Provide Input Details")
+st.info("👉 Select or enter the details below, then click **Check Conversion** to see the prediction.")
 
 col1, col2 = st.columns(2)
-lead_source = col1.selectbox("Lead Source", df['LeadSource'].unique())
-industry = col2.selectbox("Industry", df['Industry'].unique())
-region = col1.selectbox("Region", df['Region'].unique())
-contacted = col2.selectbox("Contacted", [0, 1])
-followups = col1.slider("Follow Ups", 0, 10, 3)
-lead_score = col2.slider("Lead Score", 20, 100, 60)
+lead_source = col1.selectbox("Lead Source", df['LeadSource'].unique(),help="Where the lead originated from (e.g., Ad, Referral, Website).")
+industry = col2.selectbox("Industry", df['Industry'].unique(),help="Industry or business domain of the lead.")
+region = col1.selectbox("Region", df['Region'].unique(), help="Geographical region of the lead.")
+contacted = col2.selectbox("Contacted", [0, 1],help="Whether the lead has been contacted by the sales team.")
+followups = col1.slider("Follow Ups", 0, 10, 3,help="How many times the lead was followed up by a sales agent.")
+lead_score = col2.slider("Lead Score", 20, 100, 60, help="A numeric score indicating lead quality (higher = better chance of conversion).")
 
 if st.button("Check conversion "):
     input_data = pd.DataFrame({
