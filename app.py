@@ -10,7 +10,7 @@ import seaborn as sns
 
 st.set_page_config(page_title="Lead Conversion Prediction", layout="centered")
 
-st.title("🎯 Lead Conversion Prediction App")
+st.title("🎯 Lead-to-Customer Predictor")
 st.write("Predict whether a lead will convert based on CRM attributes like source, score, and follow-ups.")
 
 # Load data
@@ -21,9 +21,6 @@ def load_data():
 
 df = load_data()
 
-# Show dataset preview
-with st.expander("🔍 View Raw Dataset"):
-    st.dataframe(df.head())
 
 # Encode categorical columns
 df_encoded = df.copy()
@@ -49,19 +46,6 @@ col1, col2 = st.columns(2)
 col1.metric("Accuracy", f"{acc*100:.2f}%")
 col2.metric("Test Samples", len(y_test))
 
-# Confusion matrix
-cm = confusion_matrix(y_test, y_pred)
-fig, ax = plt.subplots()
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Not Converted', 'Converted'], yticklabels=['Not Converted', 'Converted'])
-plt.title("Confusion Matrix")
-st.pyplot(fig)
-
-# Feature Importance
-feat_imp = pd.DataFrame({'Feature': X.columns, 'Importance': model.feature_importances_}).sort_values(by='Importance', ascending=False)
-st.bar_chart(feat_imp.set_index('Feature'))
-
-# --- Prediction Section ---
-st.header("🔮 Predict Lead Conversion to Customer ")
 
 col1, col2 = st.columns(2)
 lead_source = col1.selectbox("Lead Source", df['LeadSource'].unique())
@@ -71,7 +55,7 @@ contacted = col2.selectbox("Contacted", [0, 1])
 followups = col1.slider("Follow Ups", 0, 10, 3)
 lead_score = col2.slider("Lead Score", 20, 100, 60)
 
-if st.button("Check conversion % "):
+if st.button("Check conversion "):
     input_data = pd.DataFrame({
         'LeadSource': [lead_source],
         'Industry': [industry],
@@ -90,4 +74,4 @@ if st.button("Check conversion % "):
     st.info(f"**Probability of Conversion:** {prob*100:.2f}%")
 
 st.markdown("---")
-st.caption("Built with ❤️ using Streamlit, Scikit-learn, and Python.")
+st.caption("Built by Suvaranamaliya Jothibabu.")
